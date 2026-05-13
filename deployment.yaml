@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hazelcast
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hazelcast
+  template:
+    metadata:
+      labels:
+        app: hazelcast
+    spec:
+      containers:
+      - name: hazelcast
+        image: marcoadsilva/tp1bcc362:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5701
+        env:
+        - name: HZ_CLUSTERNAME
+          value: "hello-world"
+        - name: HZ_NETWORK_JOIN_KUBERNETES_ENABLED
+          value: "true"
+        - name: HZ_NETWORK_JOIN_MULTICAST_ENABLED
+          value: "false"
+        - name: HZ_NETWORK_JOIN_TCPIP_ENABLED
+          value: "false"
+        - name: hazelcast.network.join.kubernetes.service-name
+          value: "hazelcast-service"
